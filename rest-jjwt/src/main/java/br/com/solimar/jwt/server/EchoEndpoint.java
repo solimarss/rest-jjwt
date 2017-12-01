@@ -22,7 +22,7 @@ public class EchoEndpoint {
 	// http://localhost:8080/jjwt/service/echo/jwt?message=abc
 	@GET
 	@Path("jwt")
-	@JWTTokenNeeded
+	@JWTTokenNeeded(role={"ADMIN","DIR"})
 	public Response echoWithJWTToken(@QueryParam("message") String message) {
 		return Response.ok().entity(message == null ? "no message" : message).build();
 	}

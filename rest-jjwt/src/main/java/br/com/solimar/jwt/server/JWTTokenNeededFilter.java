@@ -1,11 +1,14 @@
 package br.com.solimar.jwt.server;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -15,9 +18,24 @@ import javax.ws.rs.ext.Provider;
 @Priority(Priorities.AUTHENTICATION)
 public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
+	@Context
+	ResourceInfo resourceInfo;
+
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 
 		System.out.println("Entrou no filter");
+
+		//Pegando os parametros da anotação
+		Method method = resourceInfo.getResourceMethod();
+		if (method != null) {
+			JWTTokenNeeded annot = method.getAnnotation(JWTTokenNeeded.class);
+			String[] roles = annot.role();
+			for (String role : roles) {
+				System.out.println("Annotation: " + role);
+
+			}
+
+		}
 
 		// Get the HTTP Authorization header from the request
 		String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);

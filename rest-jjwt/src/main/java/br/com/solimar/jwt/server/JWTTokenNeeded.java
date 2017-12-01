@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD})
 public @interface JWTTokenNeeded {
 	
-	//String role();
+	 String[] role() default "USER";
 	
 }
