@@ -56,7 +56,7 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 				// logger.severe("#### invalid token : " + token);
 				e.printStackTrace();
 				System.out.println("#### invalid token : " + token);
-				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).build());
 			}
 
 		} else {

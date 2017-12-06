@@ -17,6 +17,7 @@ public class ClienteRest implements Serializable {
 
 	private static final String ENTRY_POINT_MSG = "/echo";
 	private static final String ENTRY_POINT_USER = "/users";
+	private static final String ENTRY_POINT_PESSOA = "/pessoa";
 
 	public void getMsg(String token) {
 
@@ -38,6 +39,28 @@ public class ClienteRest implements Serializable {
 		}
 
 	}
+	
+	public void getPessoas(String token) {
+
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target(SERVER_URI + ENTRY_POINT_PESSOA + "/list");
+
+		Response response = null;
+		try {
+
+			response = target.request(MediaType.APPLICATION_JSON).header(HttpHeaders.AUTHORIZATION, token).get();
+
+			System.out.println("Status: " + response.getStatus());
+			System.out.println("Status Info: " + response.getStatusInfo());
+			System.out.println("Resposta: " + response.readEntity(String.class));
+
+		} catch (Exception e) {
+			System.out.println("Exception : " + e.getMessage());
+			e.printStackTrace();
+		}
+
+	}
+	
 
 	public String authenticate() {
 
@@ -77,14 +100,17 @@ public class ClienteRest implements Serializable {
 		System.out.println("******** Authenticate **********************");
 		String token = cliente.authenticate();
 
-		/*try {
+		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}*/
+		}
 
 		System.out.println("******** List **********************");
 		cliente.getMsg(token);
+		
+		System.out.println("******** Pessoa List **********************");
+		cliente.getPessoas(token);
 
 	}
 
