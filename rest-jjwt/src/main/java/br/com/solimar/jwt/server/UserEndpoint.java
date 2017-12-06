@@ -29,7 +29,7 @@ public class UserEndpoint {
 
 			// Issue a token for the user
 			// String token = issueToken(login);
-			String token = Jwt.issueToken(login);
+			String token = JWTSerice.issueToken(login);
 
 			// Return the token on the response
 			// return Response.ok().header(Status.AUTHORIZATION, "Bearer " +

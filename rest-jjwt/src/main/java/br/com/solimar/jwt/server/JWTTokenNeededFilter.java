@@ -49,11 +49,12 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
 			try {
 				// Validate the token
-				Jwt.validateJwt(token);
+				JWTSerice.validateJwt(token);
 				System.out.println("#### valid token : " + token);
 
 			} catch (Exception e) {
 				// logger.severe("#### invalid token : " + token);
+				e.printStackTrace();
 				System.out.println("#### invalid token : " + token);
 				requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 			}

@@ -9,7 +9,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-
 public class ClienteRest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -32,25 +31,21 @@ public class ClienteRest implements Serializable {
 			System.out.println("Status: " + response.getStatus());
 			System.out.println("Status Info: " + response.getStatusInfo());
 			System.out.println("Resposta: " + response.readEntity(String.class));
-		
 
 		} catch (Exception e) {
 			System.out.println("Exception : " + e.getMessage());
 			e.printStackTrace();
 		}
 
-
 	}
-
-	
 
 	public String authenticate() {
 
 		Client client = ClientBuilder.newClient();
 		String uri = SERVER_URI + ENTRY_POINT_USER + "/login";
 		WebTarget target = client.target(uri);
-		
-		System.out.println("URL "+uri);
+
+		System.out.println("URL " + uri);
 
 		Response response = null;
 		try {
@@ -82,14 +77,14 @@ public class ClienteRest implements Serializable {
 		System.out.println("******** Authenticate **********************");
 		String token = cliente.authenticate();
 
-		/*
-		 * try { Thread.sleep(120*1000); } catch (InterruptedException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
+		/*try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
 
 		System.out.println("******** List **********************");
 		cliente.getMsg(token);
-		
 
 	}
 
