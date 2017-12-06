@@ -34,7 +34,6 @@ public class ClienteRest implements Serializable {
 			System.out.println("Resposta: " + response.readEntity(String.class));
 
 		} catch (Exception e) {
-			System.out.println("Exception : " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -55,7 +54,6 @@ public class ClienteRest implements Serializable {
 			System.out.println("Resposta: " + response.readEntity(String.class));
 
 		} catch (Exception e) {
-			System.out.println("Exception : " + e.getMessage());
 			e.printStackTrace();
 		}
 
