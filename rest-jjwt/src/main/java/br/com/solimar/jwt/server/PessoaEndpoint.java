@@ -1,5 +1,7 @@
 package br.com.solimar.jwt.server;
 
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -7,9 +9,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/echo")
+@Path("/pessoa")
 @Produces({ MediaType.APPLICATION_JSON })
-public class EchoEndpoint {
+public class PessoaEndpoint {
 
 	// Test
 	// http://localhost:8080/jjwt/service/echo
@@ -18,12 +20,13 @@ public class EchoEndpoint {
 		return Response.ok().entity("serviço funcionando").build();
 	}
 
-	// Test
-	// http://localhost:8080/jjwt/service/echo/jwt?message=abc
 	@GET
-	@Path("jwt")
-	@JWTTokenNeeded(role={"ADMIN","DIR"})
-	public Response echoWithJWTToken(@QueryParam("message") String message) {
-		return Response.ok().entity(message == null ? "no message" : message).build();
+	@Path("/list")
+	@JWTTokenNeeded(role = { "ADMIN", "DIR" })
+	public Response getlistAll() {
+		System.out.println("PessoaEndpoint: /pessoa/list");
+		List<PessoaVO> list = DatabaseSimulator.getPeople();
+		return Response.status(200).entity(list).build();
+
 	}
 }

@@ -1,13 +1,18 @@
 package br.com.solimar.jwt.client;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import br.com.solimar.jwt.server.PessoaVO;
 
 public class ClienteRest implements Serializable {
 
@@ -39,7 +44,7 @@ public class ClienteRest implements Serializable {
 
 	}
 	
-	public void getPessoas(String token) {
+	public List<PessoaVO>  getPessoas(String token) {
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target(SERVER_URI + ENTRY_POINT_PESSOA + "/list");
@@ -51,10 +56,21 @@ public class ClienteRest implements Serializable {
 
 			System.out.println("Status: " + response.getStatus());
 			System.out.println("Status Info: " + response.getStatusInfo());
-			System.out.println("Resposta: " + response.readEntity(String.class));
+			
+			
+			List<PessoaVO> lista = new ArrayList<>();
+			if (response.getStatus() == 200) {
+				lista = response.readEntity(new GenericType<List<PessoaVO>>() {});
+
+			}else{
+				System.out.println("Resposta: " + response.readEntity(String.class));
+			}
+
+			return lista;
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 
 	}
@@ -98,18 +114,21 @@ public class ClienteRest implements Serializable {
 		System.out.println("******** Authenticate **********************");
 		String token = cliente.authenticate();
 
-		try {
+		/*try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 		System.out.println("******** List **********************");
 		cliente.getMsg(token);
 		
 		System.out.println("******** Pessoa List **********************");
-		cliente.getPessoas(token);
+		 List<PessoaVO> pessoas = cliente.getPessoas(token);
 
+		 for (PessoaVO pessoaVO : pessoas) {
+			System.out.println("Pessoa: "+pessoaVO.getNome());
+		}
 	}
 
 }
